@@ -15,7 +15,9 @@ jobs:
       - self-hosted  
     steps:
       - name: output matrix
-        run: echo "::set-output name=matrix::${{ inputs.matrix }}"
+        run: |
+          echo "${{ inputs.matrix }}"
+          echo "::set-output name=matrix::${{ inputs.matrix }}"
   pr-terraform:
     needs: [get-matrix]
     strategy:
