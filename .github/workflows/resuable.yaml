@@ -20,15 +20,23 @@ jobs:
         name: output matrix
         run: |
           echo "::set-output name=matrix::${{ inputs.matrix }}"
-  pr-terraform:
-    needs: [get-matrix]
-    strategy:
-      matrix: ${{ fromJson(needs.get-matrix.outputs.matrix) }}
-      fail-fast: false
+  test-get:
     runs-on:
       - self-hosted
     steps:
-      - name: Clean up runner
+      - name: test-get
         run: |
-          echo "${{ matrix.environment }}"
-          echo "${{ matrix.location }}"
+          echo "${{needs.get-matrix.outputs.matrix}}"         
+
+  # pr-terraform:
+  #   needs: [get-matrix]
+  #   strategy:
+  #     matrix: ${{ fromJson(needs.get-matrix.outputs.matrix) }}
+  #     fail-fast: false
+  #   runs-on:
+  #     - self-hosted
+  #   steps:
+  #     - name: Clean up runner
+  #       run: |
+  #         echo "${{ matrix.environment }}"
+  #         echo "${{ matrix.location }}"
