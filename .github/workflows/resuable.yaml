@@ -6,36 +6,23 @@ on:
       environment:
         required: true
         type: string
-      matrix:
+      matrix_environment:
         required: true
-        type: string     
+        type: string 
+      matrix_location:
+        required: true
+        type: string            
 jobs:
-  job1:
-    runs-on: self-hosted
-    outputs:
-      matrix: ${{toJson(steps.set-matrix.outputs.matrix)}}
-    steps:
-      - id: set-matrix
-        run: echo "::set-output name=matrix::{"include":[{"project":"foo","config":"Debug"},{"project":"bar","config":"Release"}]}"
-  job2:
-    needs: job1
-    runs-on: self-hosted
+  pr-terraform:
     strategy:
-      matrix: ${{fromJSON(needs.job1.outputs.matrix)}}
+      matrix: 
+        environment: ${{fromJson(inputs.matrix_environment)}}
+        location: ${{fromJson(inputs.matrix_location)}}
+      fail-fast: false
+    runs-on:
+      - self-hosted
     steps:
-      - run: |
-          echo "${{ matrix.include.project }}"
-          echo "${{ matrix.include.config }}"     
-
-  # pr-terraform:
-  #   needs: [get-matrix]
-  #   strategy:
-  #     matrix: ${{ fromJson(needs.get-matrix.outputs.matrix) }}
-  #     fail-fast: false
-  #   runs-on:
-  #     - self-hosted
-  #   steps:
-  #     - name: Clean up runner
-  #       run: |
-  #         echo "${{ matrix.environment }}"
-  #         echo "${{ matrix.location }}"
+      - name: Clean up runner
+        run: |
+          echo "${{ matrix.environment }}"
+          echo "${{ matrix.location }}"
