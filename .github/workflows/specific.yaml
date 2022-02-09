@@ -1,0 +1,15 @@
+name: Dev Merged PRs
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/specific.yaml
+
+jobs:
+  pr-deploy:
+    uses: git.scm.genesys.com/masriniv/reusable-workflow/.github/workflows/reusable.yml@main
+    with:
+      environment: dev
+      matrix: '{ \"environment\": [\"dev\"], \"location\": [\"westus2\",\"eastus2\",\"southeastasia\"] }'

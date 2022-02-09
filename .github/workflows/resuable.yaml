@@ -1,0 +1,25 @@
+name: Reusable workflow example
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      matrix:
+        required: true
+        type: string
+jobs:
+  pr-terraform:
+    env:
+      matrix_env: ${{ inputs.matrix }}
+    strategy:
+      matrix: ${{ fromJson( env.matrix_env ) }}
+      fail-fast: false
+    runs-on:
+      - self-hosted
+    steps:
+      - name: Clean up runner
+        run: |
+          echo "${{ matrix.environment }}"
+          echo "${{ matrix.location }}"
