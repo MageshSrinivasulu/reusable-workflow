@@ -9,7 +9,7 @@ on:
 
 jobs:
   pr-deploy:
-    uses: MageshSrinivasulu/reusable-workflow/.github/workflows/reusable.yaml@main
+    uses: MageshSrinivasulu/reusable-workflow/.github/workflows/resuable.yaml@main
     with:
       environment: dev
       matrix: '{ \"environment\": [\"dev\"], \"location\": [\"westus2\",\"eastus2\",\"southeastasia\"] }'
