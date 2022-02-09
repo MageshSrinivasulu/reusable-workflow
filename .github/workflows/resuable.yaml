@@ -17,6 +17,7 @@ jobs:
       - name: output matrix
         run: echo "::set-output name=matrix::${{ inputs.matrix }}"
   pr-terraform:
+    needs: [get-matrix]
     strategy:
       matrix: ${{ fromJson(needs.get-matrix.outputs.matrix) }}
       fail-fast: false
