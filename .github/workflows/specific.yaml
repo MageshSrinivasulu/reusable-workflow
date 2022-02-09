@@ -13,3 +13,4 @@ jobs:
     with:
       environment: dev
       matrix: '{ \"environment\": [\"dev\"], \"location\": [\"westus2\",\"eastus2\",\"southeastasia\"] }'
+      
