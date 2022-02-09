@@ -16,7 +16,6 @@ jobs:
     steps:
       - name: output matrix
         run: |
-          echo "${{ inputs.matrix }}"
           echo "::set-output name=matrix::${{ inputs.matrix }}"
   pr-terraform:
     needs: [get-matrix]
