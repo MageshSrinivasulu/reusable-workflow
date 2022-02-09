@@ -13,8 +13,11 @@ jobs:
   get-matrix:
     runs-on:
       - self-hosted  
+    outputs:
+      matrix: ${{ steps.get-matrix.outputs.matrix }}      
     steps:
-      - name: output matrix
+      - id: get-matrix
+        name: output matrix
         run: |
           echo "::set-output name=matrix::${{ inputs.matrix }}"
   pr-terraform:
