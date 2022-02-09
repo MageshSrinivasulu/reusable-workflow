@@ -7,9 +7,26 @@ on:
     paths:
       - .github/workflows/specific.yaml
 
+# jobs:
+#   pr-deploy:
+#     uses: MageshSrinivasulu/reusable-workflow/.github/workflows/resuable.yaml@main
+#     with:
+#       environment: dev
+#       matrix: '{ \"environment\": [\"dev\"] , \"location\": [\"a\",\"b\",\"c\"] }'
 jobs:
-  pr-deploy:
-    uses: MageshSrinivasulu/reusable-workflow/.github/workflows/resuable.yaml@main
-    with:
-      environment: dev
-      matrix: '{ \"environment\": [\"dev\"] , \"location\": [\"a\",\"b\",\"c\"] }'
+  job1:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - id: set-matrix
+        run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
+  job2:
+    needs: job1
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{fromJSON(needs.job1.outputs.matrix)}}
+    steps:
+      - run: |
+          echo "${{ matrix.include.project }}"
+          echo "${{ matrix.include.config }}"  
