@@ -9,12 +9,12 @@ on:
       matrix:
         required: true
         type: string
+env:
+  matrix_env: ${{ inputs.matrix }}     
 jobs:
   pr-terraform:
-    env:
-      matrix_env: ${{ inputs.matrix }}
     strategy:
-      matrix: ${{ fromJson( env.matrix_env ) }}
+      matrix: ${{ fromJson(env.matrix_env) }}
       fail-fast: false
     runs-on:
       - self-hosted
