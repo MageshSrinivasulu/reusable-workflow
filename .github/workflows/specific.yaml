@@ -12,5 +12,4 @@ jobs:
     uses: MageshSrinivasulu/reusable-workflow/.github/workflows/resuable.yaml@main
     with:
       environment: dev
-      matrix: '{ \"environment\": [\"dev\"], \"location\": [\"westus2\",\"eastus2\",\"southeastasia\"] }'
-      
+      matrix: '{ "environment": ["dev"] , "location" : ["a","b","c"] }'
