@@ -10,24 +10,22 @@ on:
         required: true
         type: string     
 jobs:
-  get-matrix:
-    runs-on:
-      - self-hosted  
+  job1:
+    runs-on: self-hosted
     outputs:
-      matrix: ${{ steps.get-matrix.outputs.matrix }}      
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - id: get-matrix
-        name: output matrix
-        run: |
-          echo "::set-output name=matrix::{\"environment\":[\"dev\"],\"location\":[\"a\",\"b\",\"c\"]}"
-  test-get:
-    needs: [get-matrix]
-    runs-on:
-      - self-hosted
+      - id: set-matrix
+        run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
+  job2:
+    needs: job1
+    runs-on: self-hosted
+    strategy:
+      matrix: ${{fromJSON(needs.job1.outputs.matrix)}}
     steps:
-      - name: test-get
-        run: |
-          echo "${{needs.get-matrix.outputs.matrix}}"         
+      - run: |
+          echo "${{ matrix.include.project }}"
+          echo "${{ matrix.include.config }}"     
 
   # pr-terraform:
   #   needs: [get-matrix]
