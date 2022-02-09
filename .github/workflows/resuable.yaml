@@ -19,7 +19,7 @@ jobs:
       - id: get-matrix
         name: output matrix
         run: |
-          echo "::set-output name=matrix::{ \"environment\": [\"dev\"] , \"location\": [\"a\",\"b\",\"c\"] }"
+          echo "::set-output name=matrix::{\"environment\":[\"dev\"],\"location\":[\"a\",\"b\",\"c\"]}"
   test-get:
     needs: [get-matrix]
     runs-on:
